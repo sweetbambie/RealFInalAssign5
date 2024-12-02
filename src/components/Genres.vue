@@ -8,8 +8,16 @@ const router = useRouter();
 const selectedGenre = ref(28);
 const response = ref(null);
 
+const genres = [ 
+  { id: 12, genreName: 'Adventure' },
+  {id: 16, genreName: 'Animation' },
+  {id: 35, genreName: 'Comedy' },
+  {id: 10402, genreName: 'Music' },
+
+];
+
 async function getMovieByGenre() {
-  response.value = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&with_genres=${selectedGenre.value}`);
+  response.value = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&with_genres=${selectedGenre.value}`);
 }
 
 function getMovieDetails(id) {
@@ -17,7 +25,7 @@ function getMovieDetails(id) {
 }
 
 onMounted(async () => {
-  response.value = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&with_genres=${selectedGenre.value}`);
+  response.value = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&include_adult=false&with_genres=${selectedGenre.value}`);
 })
 </script>
 
