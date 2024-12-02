@@ -23,7 +23,6 @@ import { RouterLink } from 'vue-router';
   padding: 0;
   overflow: hidden;
   text-align: center;
-
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -13,6 +13,7 @@
           <input type="text" placeholder="Name" class="input-field" required>
           <input type="email" placeholder="Email" class="input-field" required>
           <input type="password" placeholder="Password" class="input-field" required>
+          <input type="password" placeholder="Re-Enter Password" class="input-field" required>
           <button type="submit" class="register">Register</button>
         </form>
       </div>
