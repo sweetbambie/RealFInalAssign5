@@ -1,105 +1,78 @@
-<template>
-    <div>
-      <h1>Featured Movies</h1>
-      <div class="movie-grid">
-        <div v-for="movie in selectedMovies" :key="movie.id" class="movie-card">
-          <img :src="getImageUrl(movie.poster_path)" :alt="movie.title" width="200" />
-          <h3>{{ movie.title }}</h3>
-          <p>{{ movie.overview }}</p>
-        </div>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  import { ref, onMounted } from "vue";
-  
-  export default {
-    setup() {
-      const selectedMovieIds = [
-        210577,  
-        253257,      
-        123634,
-        9464
-      ];
-  
-      const selectedMovies = ref([]);
-  
-      const fetchMovieDetails = async (id) => {
-        const url = `https://api.themoviedb.org/3/movie/${id}?api_key=b748e5e23f131d901f8ab54ef85b8483&language=en-US`;
-  
-        try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          console.error("Failed to fetch movie details");
-          return null; 
-        }
-        const data = await response.json();
-        return data;  
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
-        return null;  
-      }
-    };
-  
-      const fetchSelectedMovies = async () => {
-        const movieDetailsPromises = selectedMovieIds.map((id) => fetchMovieDetails(id));
-        const moviesData = await Promise.all(movieDetailsPromises);
-        selectedMovies.value = moviesData.filter(movie => movie !== null); 
-      };
-  
-      onMounted(fetchSelectedMovies);
-  
-      const getImageUrl = (path) => {
-        return path ? `https://image.tmdb.org/t/p/w500${path}` : 'https://via.placeholder.com/200x300?text=No+Image';
-      };
-  
-      return {
-        selectedMovies,
-        getImageUrl
-      };
+<script setup>
+import axios from "axios";
+import { ref, onMounted } from 'vue';
+
+const response = ref(null);
+const numbers = ref([]);
+
+numbers.value = (() => {
+  const set = new Set();
+
+  while (true) {
+    set.add(Math.floor(Math.random() * 19));
+
+    if (set.size === 3) {
+      return set;
     }
-  };
+  }
+})();
+
+onMounted(async () => {
+  response.value = await axios.get(`https://api.themoviedb.org/3/movie/now_playing?api_key=${import.meta.env.VITE_TMDB_KEY}`);
+})
 </script>
-  
-<style scoped>
-  h1 {
-    text-align: center;
-  }
-  
-  .movie-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4%;
-  }
-  
-  .movie-card {
-    width: 20%;
-    text-align: center;
-    border: 1px solid hotpink;
-    border-radius: 8px;
-    padding: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .movie-card img {
-    border-radius: 8px;
-    max-width: 100%;
-    height: auto;
-  }
-  
-  h3 {
-    font-size: 1.2rem;
-    margin-top: 10px;
-  }
-  
-  p {
-    font-size: 1rem;
-    margin-top: 10px;
-    color: #c5a6a6;
-  }
-  </style>
+
+<template>
+<div class="text">Featured Movies</div>
+  <div v-if="response" class="movie-container">
+    <div v-for="number in numbers" :key="response.data.results[number].id" class="movie-card">
+      <img :src="`https://image.tmdb.org/t/p/w500${response.data.results[number].poster_path}`" alt="Movie Poster" class="movie-poster" />
+      <p class="movie-title">{{ response.data.results[number].title }}</p>
+    </div>
+  </div>
+</template>
+
+<style>
+.movie-container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.movie-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  text-align: center;
+}
+
+.movie-poster {
+  width: 100% !important; 
+  height: auto !important; /*need to fix at some point */
+  object-fit: cover;
+}
+
+.movie-title {
+  font-size: 1rem;
+  color: hotpink;
+  margin-top: 10px;
+}
+
+.text {
+  margin-top: 20px;
+  font-size: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+</style>
+
+
+
+
+
   
   
   

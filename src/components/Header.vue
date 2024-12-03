@@ -39,7 +39,7 @@ import { RouterLink } from 'vue-router';
 
 .logo {
   font-size: 2rem;
-  float: left !important;
+  /* float: left !important; */
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-style: italic;
   font-weight: bold;
