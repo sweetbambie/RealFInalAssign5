@@ -45,7 +45,7 @@ const handleLogin = () => {
 }
 
 .overlay {
-  background-color: rgba(78, 25, 20,0.7);
+  /*background-color: rgba(78, 25, 20,0.7);*/
   width: 100%;
   height: 100%;
   display: flex;
