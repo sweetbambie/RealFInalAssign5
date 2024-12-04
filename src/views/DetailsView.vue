@@ -18,8 +18,8 @@ console.log(response.data);
     <a class="movie-site" :href="response.data.homepage" target="_blank">Official Movie Site</a>
     <p class="movie-runtime">Runtime: {{ response.data.runtime }} minutes</p>
     <p class="movie-rating">Rating: {{ response.data.vote_average }} / 10</p>
-    <p class="movie-cast">Cast: {{ response.data.cast }}</p>
-    <p class="movie-director">Director: {{ response.data.director }}</p>
+    <p class="movie-budget">Budget: ${{ response.data.budget }}</p>
+    <p class="movie-revenue">Revenue: ${{ response.data.revenue }}</p>    
     <img :src="`https://image.tmdb.org/t/p/w500${response.data.poster_path}`" alt="Movie Poster" class="movie-poster" />
     <h2 class="trailers-title">Trailers</h2>
     <div class="trailers-container">
